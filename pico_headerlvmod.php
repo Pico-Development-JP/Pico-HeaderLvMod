@@ -20,9 +20,19 @@ class Pico_HeaderLvMod {
 
 	public function after_parse_content(&$content)
 	{
-  	$content = preg_replace_callback('/(<\/?h)(\d)([^>]*>)/', function($m){
+	  $this->in_replace($content);
+	}
+	
+	public function get_page_data(&$data, $page_meta)
+	{
+	  $this->in_replace($data["content"]);
+	}
+	
+	private function in_replace(&$text)
+	{
+  	$text = preg_replace_callback('/(<\/?h)(\d)([^>]*>)/', function($m){
         return $m[2] + $this->headinglevel <= 6 ? $m[1] . ($m[2] + $this->headinglevel) . $m[3] : "";
-      }, $content);
+      }, $text);
 	}
 	
 }
