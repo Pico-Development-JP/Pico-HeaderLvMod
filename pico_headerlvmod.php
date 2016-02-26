@@ -8,24 +8,21 @@
  * @license http://opensource.org/licenses/MIT
  * @version 1.0
  */
-class Pico_HeaderLvMod {
+class Pico_HeaderLvMod extends AbstractPicoPlugin {
+
+  protected $enabled = false;
 
   private $headinglevel;
   
-	public function config_loaded(&$settings)
+	public function onConfigLoaded(&$config)
 	{
-		$this->headinglevel = isset($settings["headerlv"]["level"]) ?
-		    $settings["headerlv"]["level"] : 3;
+		$this->headinglevel = isset($config["headerlv"]["level"]) ?
+		    $config["headerlv"]["level"] : 3;
 	}
 
-	public function after_parse_content(&$content)
+	public function onSinglePageLoaded(array &$pageData)
 	{
-	  $this->in_replace($content);
-	}
-	
-	public function get_page_data(&$data, $page_meta)
-	{
-	  $this->in_replace($data["content"]);
+	  $this->in_replace($pageData["content"]);
 	}
 	
 	private function in_replace(&$text)
